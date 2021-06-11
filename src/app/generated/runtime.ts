@@ -125,6 +125,7 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
+// @ts-ignore probably some bug
 export type FetchAPI = GlobalFetch['fetch'];
 
 export interface ConfigurationParameters {
