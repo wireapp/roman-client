@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Configuration, DefaultApi, RequestContext, ResponseContext } from '../generated';
 import useUser from './UseUser';
 
-export const apiBasePath = process.env.BASE_PATH ?? 'https://roman.integrations.zinfra.io';
+export const apiBasePath = process.env.BASE_PATH ?? 'http://localhost:8080';
 
 /**
  * Hook that gives access to DefaultApi.

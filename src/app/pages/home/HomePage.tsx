@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useRequireAuth } from '../../hooks/UseAuth';
 import { makeStyles } from '@material-ui/styles';
 import { Result } from '../../generated';
-import { CircularProgress } from '@material-ui/core';
+import ComponentOrPending from '../../modules/ComponentOrPending';
+import Provider from './components/Provider';
+import Service from './components/Service';
 
 /**
  * Login Page, redirects to home after
@@ -29,14 +31,30 @@ export default function HomePage() {
 
   const classes = useStyles();
   return (
-    // we use hidden just as a precaution if the suer already exist
-    // to not to "blick" with the login window
-    <div className={classes.page}>
-      {status === 'pending'
-        ? <CircularProgress size={'1.5rem'}/>
-        : <span>App Key: {service?.appKey}</span>
-      }
-    </div>
+    <ComponentOrPending status={status}>
+      <div className={classes.page}>
+        {service != null && (
+          <>
+            <div>
+              {/* todo check when this can be nulls */}
+              <Provider email={service?.email!!} company={service?.company!!}/>
+            </div>
+            <div>
+              <Service
+                serviceAccess={{
+                  serviceCode: service.serviceCode,
+                  serviceAuthentication: service.serviceAuthentication,
+                  appKey: service.appKey
+                }}
+                info={{
+                  name: service.service!!, // todo check when this is null
+                  webhook: service.webhook!!
+                }}/>
+            </div>
+          </>
+        )}
+      </div>
+    </ComponentOrPending>
   );
 }
 
@@ -46,17 +64,6 @@ const useStyles = makeStyles(() => ({
       flexFlow: 'column',
       alignContent: 'center',
       justifyContent: 'center'
-    },
-    form: {
-      display: 'flex',
-      flexFlow: 'column',
-      '& > div': {
-        margin: '10px',
-        width: '25ch'
-      }
-    },
-    infoBox: {
-      color: 'red'
     }
   })
 );
