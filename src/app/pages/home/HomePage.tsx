@@ -5,6 +5,7 @@ import { Result } from '../../generated';
 import ComponentOrPending from '../../modules/ComponentOrPending';
 import Provider from './components/Provider';
 import Service from './components/Service';
+import Header from './components/Header';
 
 /**
  * Login Page, redirects to home after
@@ -35,22 +36,19 @@ export default function HomePage() {
       <div className={classes.page}>
         {service != null && (
           <>
-            <div>
-              {/* todo check when this can be nulls */}
-              <Provider email={service?.email!!} company={service?.company!!}/>
-            </div>
-            <div>
-              <Service
-                serviceAccess={{
-                  serviceCode: service.serviceCode,
-                  serviceAuthentication: service.serviceAuthentication,
-                  appKey: service.appKey
-                }}
-                info={{
-                  name: service.service!!, // todo check when this is null
-                  webhook: service.webhook!!
-                }}/>
-            </div>
+            <Header/>
+            {/* todo check when this can be nulls */}
+            <Provider email={service?.email!!} company={service?.company!!}/>
+            <Service
+              serviceAccess={{
+                serviceCode: service.serviceCode,
+                serviceAuthentication: service.serviceAuthentication,
+                appKey: service.appKey
+              }}
+              info={{
+                name: service.service!!, // todo check when this is null
+                webhook: service.webhook!!
+              }}/>
           </>
         )}
       </div>
@@ -63,7 +61,12 @@ const useStyles = makeStyles(() => ({
       display: 'flex',
       flexFlow: 'column',
       alignContent: 'center',
-      justifyContent: 'center'
+      paddingLeft: '10%',
+      paddingRight: '10%',
+      paddingTop: '2%'
+    },
+    header: {
+      alignSelf: 'top'
     }
   })
 );
