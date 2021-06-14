@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
     header: {
       display: 'flex',
       flexFlow: 'row',
-      justifyContent: 'space-around'
+      justifyContent: 'space-between'
     }
   })
 );

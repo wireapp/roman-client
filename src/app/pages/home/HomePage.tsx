@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useRequireAuth } from '../../hooks/UseAuth';
 import { makeStyles } from '@material-ui/styles';
-import { Result } from '../../generated';
 import ComponentOrPending from '../../modules/ComponentOrPending';
-import Provider from './components/Provider';
 import Service from './components/Service';
 import Header from './components/Header';
+import { ServiceData } from '../../types/TypeAliases';
 
 /**
  * Login Page, redirects to home after
@@ -14,8 +13,7 @@ export default function HomePage() {
   const { api } = useRequireAuth();
 
   const [status, setStatus] = useState<'idle' | 'pending'>('idle');
-
-  const [service, setService] = useState<Result | null>(null);
+  const [service, setService] = useState<ServiceData | undefined>(undefined);
 
   useEffect(() => {
     if (service) {
@@ -36,19 +34,20 @@ export default function HomePage() {
       <div className={classes.page}>
         {service != null && (
           <>
-            <Header/>
-            {/* todo check when this can be nulls */}
-            <Provider email={service?.email!!} company={service?.company!!}/>
-            <Service
-              serviceAccess={{
-                serviceCode: service.serviceCode,
-                serviceAuthentication: service.serviceAuthentication,
-                appKey: service.appKey
-              }}
-              info={{
-                name: service.service!!, // todo check when this is null
-                webhook: service.webhook!!
-              }}/>
+            <div className={classes.information}>
+              <Header/>
+              <Service
+                serviceAccess={{
+                  serviceCode: service.serviceCode,
+                  serviceAuthentication: service.serviceAuthentication,
+                  appKey: service.appKey
+                }}
+                info={{
+                  name: service.service!!, // todo check when this is null
+                  webhook: service.webhook!!,
+                  useServiceRefresh: (serviceData) => setService(serviceData)
+                }}/>
+            </div>
           </>
         )}
       </div>
@@ -60,13 +59,19 @@ const useStyles = makeStyles(() => ({
     page: {
       display: 'flex',
       flexFlow: 'column',
-      alignContent: 'center',
-      paddingLeft: '10%',
-      paddingRight: '10%',
-      paddingTop: '2%'
+      marginLeft: '10%',
+      marginRight: '10%',
+      marginTop: '2%',
+      flexGrow: 1
     },
-    header: {
-      alignSelf: 'top'
+    information: {
+      display: 'flex',
+      flexFlow: 'column',
+      padding: '20px',
+      flexGrow: 1,
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: '800px'
     }
   })
 );
