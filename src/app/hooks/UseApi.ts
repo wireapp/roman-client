@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Configuration, DefaultApi, RequestContext, ResponseContext } from '../generated';
 import useUser from './UseUser';
 
-export const apiBasePath = process.env.BASE_PATH ?? 'http://localhost:8080';
+export const romanBasePath = process.env.BASE_PATH ?? 'http://localhost:8080';
 
 /**
  * Hook that gives access to DefaultApi.
@@ -15,7 +15,7 @@ export default function useApi(): DefaultApi {
   if (api == null) {
     const defaultApi = new DefaultApi(
       new Configuration({
-        basePath: apiBasePath,
+        basePath: romanBasePath,
         middleware: [{
           pre: async (context: RequestContext) => {
             // TODO this is fix for wrong swagger in the Roman
