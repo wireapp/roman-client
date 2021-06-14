@@ -23,8 +23,10 @@ export default function useApi(): DefaultApi {
           },
           post: async (context: ResponseContext) => {
             // delete user if the response status from BE is unauthorized
+            // todo do this in more react way
             if (context.response.status === 401) {
-              deleteUser();
+              deleteUser(); // delete user from the storage
+              window.location.replace(window.origin); // and redirect to homepage -> that will redirect to login page
             }
           }
         }]
