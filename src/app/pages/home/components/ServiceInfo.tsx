@@ -7,7 +7,7 @@ import { ServiceData } from '../../../types/TypeAliases';
 export interface ServiceInfoProps {
   name: string
   webhook: string | undefined
-  useServiceRefresh: (data: ServiceData) => void
+  useServiceRefresh: (data: ServiceData | undefined) => void
 }
 
 /**
@@ -27,7 +27,11 @@ export default function ServiceInfo(info: ServiceInfoProps) {
     api.update({ body: { url: webHook, name: serviceName } })
     .then((r) => info.useServiceRefresh(r))
     .then(() => setStatus('idle')) // todo maybe show some modal with OK
-    .catch(e => console.log(e)); // todo error handling
+    .catch(e => {
+      console.log(e); // todo better error handling would be nice
+      info.useServiceRefresh(undefined);
+      setStatus('idle');
+    });
   };
 
   const handleReset = (e: any) => {
