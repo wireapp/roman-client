@@ -1,3 +1,8 @@
+# NOTE: this repo is obsolete as the code was merged to https://github.com/wireapp/roman
+
+# Roman Client
+The webpage behind Roman.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
